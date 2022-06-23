@@ -13,6 +13,8 @@ THIRD_PARTY_MIDDLEWARE = [
 
 MIDDLEWARE += THIRD_PARTY_MIDDLEWARE
 
+DEBUG = True
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -23,6 +25,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+ALLOWED_HOSTS = []
+
 
 
 INTERNAL_IPS = [ 

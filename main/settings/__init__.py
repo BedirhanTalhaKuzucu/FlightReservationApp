@@ -1,4 +1,3 @@
-from os import environ
 from .base import *
 
 env_name = config('ENV_NAME')
