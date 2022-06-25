@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from .serializers import FlightSerializer, ReservationSerializer
+from .serializers import FlightSerializer, ReservationSerializer, StaffFlightSerializer
 from .models import Flight, Passenger, Reservation
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permission import IsStafforReadOnly
-
+from datetime import datetime, date
 
 
 class FlightView(viewsets.ModelViewSet):
@@ -14,8 +15,23 @@ class FlightView(viewsets.ModelViewSet):
     def get_serializer_class(self):
         serializer = super().get_serializer_class()
         if self.request.user.is_staff:
-            return StafFlightSerializer
+            return StaffFlightSerializer
         return serializer
+
+    def get_queryset(self):
+        now = datetime.now()
+        current_time = now.strftime('%H:%M:%S')
+        today = date.today()
+        
+        if self.request.user.is_staff:
+            return super().get_queryset()
+        else:
+            queryset = Flight.objects.filter(date_of_departure__gt=today)
+            if Flight.objects.filter(date_of_departure=today):
+                today_qs = Flight.objects.filter(date_of_departure=today).filter(etd__gt=current_time)
+                queryset = queryset.union(today_qs)
+            return queryset
+    
         
 
 
@@ -24,6 +40,8 @@ class FlightView(viewsets.ModelViewSet):
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    # permission_classes = (IsStafforReadOnly, )
+
 
     
 
@@ -31,6 +49,13 @@ class ReservationView(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        if self.request.user.is_staff:
-            return queryset
-        return queryset.filter(user=self.request.user)
+        
+
+
+        if (self.request.user.id):
+            if self.request.user.is_staff:
+                return queryset
+            return queryset.filter(user=self.request.user)
+        return queryset.none()
+        #raise Exception('You are not authorized to view this data')
+        
