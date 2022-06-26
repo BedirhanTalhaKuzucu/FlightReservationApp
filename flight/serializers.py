@@ -18,7 +18,7 @@ class FlightSerializer(serializers.ModelSerializer):
         
 
 class PassengerSerializer(serializers.ModelSerializer):
-    # passenger_id = serializers.IntegerField(write_only=True, required=False)
+    passenger_id = serializers.IntegerField(source="id", required=False)
     class Meta:
         model= Passenger
         fields=(
@@ -64,24 +64,34 @@ class ReservationSerializer(serializers.ModelSerializer):
         passenger_data = validated_data.pop('passenger')
         mevcut = instance.passenger.all()
 
-        for index, passenger in enumerate(passenger_data):
-        
-            if index < len(mevcut):
-                pas = Passenger.objects.filter(id = mevcut[index].id)
-                pas = pas.update(**passenger)
+        #update yapılırken yolcu silmek için
+        mevcutIdlist=[Id.id for Id in mevcut ]
+        updatedIdlist= [item["id"] for item in passenger_data if "id" in item.keys()]
+        for Id in mevcutIdlist:
+            if Id in updatedIdlist:
+                pass
             else:
-                pas = Passenger.objects.create(**passenger)
-                instance.passenger.add(pas)
-
-            # try: 
-            #     pas = Passenger.objects.filter(id = passenger.passenger_id)
-            #     pas = pas.update(**passenger)
-            # except: 
-            #     pas = Passenger.objects.create(**passenger)
-            #     instance.passenger.add(pas)
+                print("yok", Id)
+                mevcut = mevcut.exclude(id=Id)
+        instance.passenger.set(mevcut)
+        # print(instance.passenger.all())
+      
+        #update yaperken var olan yolcuları güncellemek, olmayanları creat etmek için
+        for  passenger in passenger_data:
+            #gelen bilgilerde yolcu id si var mı? var ise bu id mevcut rezervasyonda mı yoksa var olan diğer yolcular arasında mı
+            if "id" in passenger.keys():
+                pas = mevcut.filter(id=passenger["id"])
+                if pas:
+                    pas = pas.update(**passenger)
+                else:
+                    pas = Passenger.objects.get(id=passenger["id"])
+                    instance.passenger.add(pas)
+            else: 
+                    pas = Passenger.objects.create(**passenger)
+                    print(pas)
+                    instance.passenger.add(pas)
 
     
-
         instance.flight_id = validated_data["flight_id"]
         instance.save()
 
