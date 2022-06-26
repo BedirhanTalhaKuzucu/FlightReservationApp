@@ -53,8 +53,12 @@ class ReservationSerializer(serializers.ModelSerializer):
         validated_data['user_id'] = self.context['request'].user.id
         reservation = Reservation.objects.create(**validated_data)
         for passenger in passenger_data:
-            pas = Passenger.objects.create(**passenger)
-            reservation.passenger.add(pas)
+            if "id" in passenger.keys():
+                pas = Passenger.objects.get(id=passenger["id"])
+                reservation.passenger.add(pas)
+            else:
+                pas = Passenger.objects.create(**passenger)
+                reservation.passenger.add(pas)
         reservation.save()
         return reservation
 
