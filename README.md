@@ -37,7 +37,7 @@
 - Django
 - Django REST Framework
 - Used postman for API development
-- Mongodb
+- PostgreSQL
 
 ## How To Use
 
@@ -60,14 +60,13 @@ $ git clone https://github.com/BedirhanTalhaKuzucu/fireBaseBlog.git
 ```
 
 ## Acknowledgements
-- I built a blog site using React
-- I used  libraries for css (Mui)
-- I used fireblog as database
-- Users must register and login to the site to create a new blog.
-- Login user can create  blog;
-    +can comment on other users' blogs,
-    +can add favorites other users' blogs.
-- Only the creator of each block can update, delete that block.
+- I have produced api for flight booking website with Django REST framework
+- I used sqlite database in development and PostgreSQL database in production.
+- Users can login and register.
+- I used token for authentication
+- I created api reference documentation using Swagger
+- I installed Django Debug Toolbar to get debug info about current request/response
+- Create, update, delete operations can be performed on more than one model with a single end point.
 
 ## Contact
 
