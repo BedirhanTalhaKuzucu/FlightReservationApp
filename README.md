@@ -5,7 +5,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://quiz-app-with-django.herokuapp.com/swagger/">
+    <a href="https://flight-reservation-app-django.herokuapp.com/swagger/">
       Test it
     </a>
     
