@@ -5,7 +5,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://firebaseblog-app.netlify.app/">
+    <a href="https://quiz-app-with-django.herokuapp.com/swagger/">
       Test it
     </a>
     
