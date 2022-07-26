@@ -48,9 +48,15 @@ To clone and run this application, you'll need [Git](https://git-scm.com)
 # Clone this repository
 $ git clone https://github.com/BedirhanTalhaKuzucu/fireBaseBlog.git
 # Install dependencies
-    -cd into the new folder and type
-    $ npm install. 
-    $ npm start.
+    -cd into the folder and type
+    $ python -m venv env #for windows  
+    $ .env/Scripts/activate # create Virtual env
+    $ pip install django
+    $ pip install -r requirement.txt
+    $ #create env file in your local and copy-paste the contents of the backend.env file in the repo into your env file
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+    $ python manage.py runserver
 ```
 
 ## Acknowledgements
