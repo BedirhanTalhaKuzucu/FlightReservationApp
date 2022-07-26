@@ -28,7 +28,7 @@
 
 ## Overview
 
-![screenshot](https://raw.githubusercontent.com/BedirhanTalhaKuzucu/fireBaseBlog/main/projectGif.gif)
+![screenshot](https://github.com/BedirhanTalhaKuzucu/FlightReservationApp/blob/main/G%C4%B1fProject.gif)
 
 ### Built With
 
